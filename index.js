@@ -16,9 +16,7 @@ me.getIssues = function() {
     var q = Q.defer(),
         ghrepo = client.repo(user + '/' + repo);
     ghrepo.issues({
-        state: 'all',
-        sort: 'updated',
-        direction: 'asc'
+        state: 'all'
     }, function(error, issues) {
         if (error) {
             q.reject(error);
@@ -31,6 +29,7 @@ me.getIssues = function() {
 
 me.onReceivedIssues = function(receivedIssues) {
     var filename = milestone.toLowerCase().replace(' ', '_') + '.csv';
+    console.log(_.map(receivedIssues, 'title'));
 
     issues = _.filter(receivedIssues, me.isInMilestone());
     issues = _.filter(issues, me.hasStorypointLabel());
