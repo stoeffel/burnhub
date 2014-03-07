@@ -3,10 +3,7 @@ Gitdown
 
 Is a burndown-chart creator for github.
 
-Features
---------
+Usage
+-----
 
-* selecting a milestone (sprint)
-* defining the label prefix for storypoints
-* creation of a linechart (as image)
-
+Just run it. 

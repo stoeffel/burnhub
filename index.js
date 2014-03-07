@@ -72,14 +72,16 @@ me.calculatePoints = function() {
     }
     days.push(moment(end.format()));
     done = 0;
+    totalPoints = 0;
     _.forEach(days, function(day) {
-        totalPoints = 0;
         _.forEach(issues, function(issue) {
             _.forEach(issue.labels, function(label) {
                 var points = parseInt(label.name.replace(prefix, ''));
-                totalPoints += points;
                 if (moment(issue.closed_at).format('MM.DD.YY') === day.format('MM.DD.YY')) {
                     done += points;
+                }
+                if (moment(issue.created_at).format('MM.DD.YY') === day.format('MM.DD.YY')) {
+                    totalPoints += points;
                 }
             });
         });
@@ -150,4 +152,3 @@ me.start = function() {
     winston.cli();
     me.askForUserAndRepo();
 };
-
