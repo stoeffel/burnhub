@@ -3,9 +3,10 @@ var github = require('octonode'),
     _ = require('lodash'),
     Q = require('q'),
     inquirer = require('inquirer'),
+    tsv = require('tsv').TSV,
     client = github.client(),
     me = module.exports,
-    user, repo, milestone, prefix, totalPoints, donePoints, todoPoints, issues;
+    user, repo, milestone, prefix, totalPoints, donePoints, actual, issues;
 
 require('./lib/StringExtras');
 
@@ -31,7 +32,15 @@ me.onReceivedIssues = function(receivedIssues) {
     winston.info('Milestone:', milestone);
     winston.info('Total:', totalPoints);
     winston.info('Done:', donePoints);
-    winston.info('Open:', todoPoints);
+    winston.info('Open:', actual);
+
+    winston.info('creating tsv...');
+    var tsvString = tsv.stringify([{
+        actual: actual,
+        date: new Date()
+    }]);
+    winston.data('========================\n' + tsvString);
+    winston.data('========================');
 };
 
 me.isInMilestone = function() {
@@ -60,7 +69,7 @@ me.hasStorypointLabel = function() {
 me.calculatePoints = function() {
     totalPoints = 0;
     donePoints = 0;
-    todoPoints = 0;
+    actual = 0;
     _.forEach(issues, function(issue) {
         _.forEach(issue.labels, function(label) {
             var points = parseInt(label.name.replace(prefix, ''));
@@ -68,7 +77,7 @@ me.calculatePoints = function() {
             if (issue.state === 'closed') {
                 donePoints += points;
             } else {
-                todoPoints += points;
+                actual += points;
             }
         });
     });
