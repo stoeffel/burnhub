@@ -1,5 +1,5 @@
-Gitdown
-=======
+Burndown
+========
 
 Is a burndown-chart creator for github.
 

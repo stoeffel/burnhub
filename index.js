@@ -1,6 +1,7 @@
 var github = require('octonode'),
     winston = require('winston'),
     _ = require('lodash'),
+    fs = require('fs'),
     Q = require('q'),
     inquirer = require('inquirer'),
     csv = require('tsv').CSV,
@@ -29,6 +30,8 @@ me.getIssues = function() {
 };
 
 me.onReceivedIssues = function(receivedIssues) {
+    var filename = milestone.toLowerCase().replace(' ', '_') + '.csv';
+
     issues = _.filter(receivedIssues, me.isInMilestone());
     issues = _.filter(issues, me.hasStorypointLabel());
     me.calculatePoints();
@@ -37,6 +40,31 @@ me.onReceivedIssues = function(receivedIssues) {
     var tsvString = csv.stringify(pointsPerDay);
     winston.data('========================\n' + tsvString);
     winston.data('========================');
+    inquirer.prompt([{
+        type: 'expand',
+        message: 'Write csv to ' + filename + '?',
+        name: 'write',
+        choices: [{
+            key: 'y',
+            name: 'write the file',
+            value: true
+        }, {
+            key: 'n',
+            name: 'don\'t write',
+            value: false
+        }]
+    }], function(answers) {
+        if (answers.write) {
+            winston.info('write', filename, '...');
+            fs.writeFile('./' + filename, tsvString, function(err) {
+                if (err) {
+                    winston.error(err);
+                } else {
+                    winston.info('The file was saved!');
+                }
+            });
+        }
+    });
 };
 
 me.isInMilestone = function() {
