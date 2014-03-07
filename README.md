@@ -6,7 +6,9 @@ Is a burndown-chart creator for github.
 Usage
 -----
 
-Just run it. 
+1. Add labels for the storypoints to your issues (i.e story-points-1, story-points-2, ...).
+2. open a terminal and run burnhub
+3. follow the instructions
 
 Todos
 -----
