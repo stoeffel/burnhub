@@ -104,18 +104,15 @@ me.askForUserAndRepo = function() {
     inquirer.prompt([{
             type: 'input',
             name: 'user',
-            message: 'Enter the name of the repo owner',
-            default: 'heinzelmannchen'
+            message: 'Enter the name of the repo owner'
         }, {
             type: 'input',
             name: 'repo',
-            message: 'Enter a repo of the user',
-            default: 'BA-Stuff'
+            message: 'Enter a repo of the user'
         }, {
             type: 'input',
             name: 'milestone',
-            message: 'Enter the name of a milestone',
-            default: 'Sprintgoal 2'
+            message: 'Enter the name of a milestone'
         }, {
             type: 'input',
             name: 'prefix',
@@ -158,4 +155,3 @@ me.start = function() {
     me.askForUserAndRepo();
 };
 
-me.start();

@@ -6,6 +6,9 @@
   "scripts": {
     "test": "mocha"
   },
+  "bin": {
+    "burnhub": "bin/cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/stoeffel/burnhub.git"
