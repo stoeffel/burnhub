@@ -7,7 +7,7 @@ var github = require('octonode'),
     moment = require('moment'),
     client = github.client(),
     me = module.exports,
-    user, repo, milestone, prefix, totalPoints, donePoints, actual, issues, start, end;
+    user, repo, milestone, prefix, issues, pointsPerDay, start, end;
 
 require('./lib/StringExtras');
 
@@ -33,15 +33,12 @@ me.onReceivedIssues = function(receivedIssues) {
     issues = _.filter(issues, me.hasStorypointLabel());
     me.calculatePoints();
     winston.info('Milestone:', milestone);
-    winston.info('Total:', totalPoints);
-    winston.info('Done:', donePoints);
-    winston.info('Open:', actual);
+    //winston.info('Total:', totalPoints);
+    //winston.info('Done:', donePoints);
+    //winston.info('Open:', actual);
 
     winston.info('creating tsv...');
-    var tsvString = tsv.stringify([{
-        actual: actual,
-        date: new Date()
-    }]);
+    var tsvString = tsv.stringify(pointsPerDay);
     winston.data('========================\n' + tsvString);
     winston.data('========================');
 };
@@ -70,18 +67,31 @@ me.hasStorypointLabel = function() {
 };
 
 me.calculatePoints = function() {
-    totalPoints = 0;
-    donePoints = 0;
-    actual = 0;
-    _.forEach(issues, function(issue) {
-        _.forEach(issue.labels, function(label) {
-            var points = parseInt(label.name.replace(prefix, ''));
-            totalPoints += points;
-            if (issue.state === 'closed') {
-                donePoints += points;
-            } else {
-                actual += points;
-            }
+    var days = [],
+        totalPoints,
+        done;
+    pointsPerDay = [];
+    for (var day = start; day.isBefore(end); day.add('days', 1)) {
+        days.push(moment(day.format()));
+    }
+    days.push(moment(end.format()));
+    done = 0;
+    _.forEach(days, function(day) {
+        totalPoints = 0;
+        _.forEach(issues, function(issue) {
+            _.forEach(issue.labels, function(label) {
+                var points = parseInt(label.name.replace(prefix, ''));
+                totalPoints += points;
+                if (moment(issue.closed_at).format('MM.DD.YY') === day.format('MM.DD.YY')) {
+                    done += points;
+                }
+            });
+        });
+        pointsPerDay.push({
+            date: moment(day).format('MM.DD.YYYY'),
+            totalPoints: totalPoints,
+            done: done,
+            remaining: totalPoints - done
         });
     });
 };
@@ -134,8 +144,8 @@ me.askForUserAndRepo = function() {
             repo = answers.repo;
             milestone = answers.milestone;
             prefix = answers.prefix;
-            start = answers.start;
-            end = answers.end;
+            start = moment(answers.start);
+            end = moment(answers.end);
             me.getIssues()
                 .then(me.onReceivedIssues)
                 .fail(me.onFail);
