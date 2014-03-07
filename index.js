@@ -7,7 +7,7 @@ var github = require('octonode'),
     moment = require('moment'),
     client = github.client(),
     me = module.exports,
-    user, repo, milestone, prefix, totalPoints, donePoints, actual, issues;
+    user, repo, milestone, prefix, totalPoints, donePoints, actual, issues, start, end;
 
 require('./lib/StringExtras');
 
@@ -115,6 +115,7 @@ me.askForUserAndRepo = function() {
             type: 'input',
             name: 'start',
             message: 'When did the sprint start (mm.dd.yy)',
+            default: moment().subtract(3, 'weeks').format('MM.DD.YYYY'),
             validate: function(value) {
                 return moment(value).isValid();
             }
@@ -133,6 +134,8 @@ me.askForUserAndRepo = function() {
             repo = answers.repo;
             milestone = answers.milestone;
             prefix = answers.prefix;
+            start = answers.start;
+            end = answers.end;
             me.getIssues()
                 .then(me.onReceivedIssues)
                 .fail(me.onFail);
