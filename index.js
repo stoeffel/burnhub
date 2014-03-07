@@ -4,6 +4,7 @@ var github = require('octonode'),
     Q = require('q'),
     inquirer = require('inquirer'),
     tsv = require('tsv').TSV,
+    moment = require('moment'),
     client = github.client(),
     me = module.exports,
     user, repo, milestone, prefix, totalPoints, donePoints, actual, issues;
@@ -14,7 +15,9 @@ me.getIssues = function() {
     var q = Q.defer(),
         ghrepo = client.repo(user + '/' + repo);
     ghrepo.issues({
-        state: 'all'
+        state: 'all',
+        sort: 'updated',
+        direction: 'asc'
     }, function(error, issues) {
         if (error) {
             q.reject(error);
@@ -108,8 +111,24 @@ me.askForUserAndRepo = function() {
             name: 'prefix',
             message: 'Enter the prefix for the storypoints label',
             default: 'story-points-'
+        }, {
+            type: 'input',
+            name: 'start',
+            message: 'When did the sprint start (mm.dd.yy)',
+            validate: function(value) {
+                return moment(value).isValid();
+            }
+        }, {
+            type: 'input',
+            name: 'end',
+            message: 'When will/did the sprint end (mm.dd.yy)',
+            default: moment().format('MM.DD.YYYY'),
+            validate: function(value) {
+                return moment(value).isValid();
+            }
         }],
         function(answers) {
+            winston.info('retrieving data from github...');
             user = answers.user;
             repo = answers.repo;
             milestone = answers.milestone;
