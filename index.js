@@ -3,7 +3,7 @@ var github = require('octonode'),
     _ = require('lodash'),
     Q = require('q'),
     inquirer = require('inquirer'),
-    tsv = require('tsv').TSV,
+    csv = require('tsv').CSV,
     moment = require('moment'),
     client = github.client(),
     me = module.exports,
@@ -33,12 +33,8 @@ me.onReceivedIssues = function(receivedIssues) {
     issues = _.filter(issues, me.hasStorypointLabel());
     me.calculatePoints();
     winston.info('Milestone:', milestone);
-    //winston.info('Total:', totalPoints);
-    //winston.info('Done:', donePoints);
-    //winston.info('Open:', actual);
-
-    winston.info('creating tsv...');
-    var tsvString = tsv.stringify(pointsPerDay);
+    winston.info('creating csv...');
+    var tsvString = csv.stringify(pointsPerDay);
     winston.data('========================\n' + tsvString);
     winston.data('========================');
 };
