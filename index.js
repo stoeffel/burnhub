@@ -129,15 +129,24 @@ me.askForUserAndRepo = function() {
     inquirer.prompt([{
             type: 'input',
             name: 'user',
-            message: 'Enter the name of the repo owner'
+            message: 'Enter the name of the repo owner',
+            validate: function(value) {
+                return value;
+            }
         }, {
             type: 'input',
             name: 'repo',
-            message: 'Enter a repo of the user'
+            message: 'Enter a repo of the user',
+            validate: function(value) {
+                return value;
+            }
         }, {
             type: 'input',
             name: 'milestone',
-            message: 'Enter the name of a milestone'
+            message: 'Enter the name of a milestone',
+            validate: function(value) {
+                return value;
+            }
         }, {
             type: 'input',
             name: 'prefix',
