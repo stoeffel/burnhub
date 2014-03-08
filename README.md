@@ -16,3 +16,5 @@ Todos
 * create a diagram from the given data
 * save the cvs to the disk
 * save config in a config file for a project
+* move from octonode to just hhtps requests
+* 
