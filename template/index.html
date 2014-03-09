@@ -26,6 +26,29 @@
             margin: auto;
             display: block
         }
+        ul {
+            margin: auto;
+            display: block;
+            width:400px; 
+            margin-top: 20px;
+        }
+        ul li {
+            list-style:none; 
+            text-shadow: #bababa 1px 1px;
+            font-weight: bold;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        li.total {
+            color: rgba(220,220,220,0.5);
+        }
+        li.done {
+            color: rgba(168, 163, 59,0.5);
+        }
+        li.remaining {
+            color: rgba(201, 69, 44,0.5);
+        }
   </style>
 </head>
 
@@ -37,6 +60,11 @@
   <!-- Add your site or application content here -->
   <h1>{{milestone}}</h1>
   <canvas id="burndown" width="400" height="400"></canvas>
+  <ul>
+      <li class="total">Total points</li>
+      <li class="done">done points</li>
+      <li class="remaining">Remaining points</li>
+  </ul>
 
 </body>
 
