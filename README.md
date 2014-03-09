@@ -13,10 +13,10 @@ Usage
 2. open a terminal and run burnhub
 3. follow the instructions
 
+It will create a csv and a html file.
+
 Todos
 -----
 
 * massive refactoring
 * save config in a config file for a project
-* move from octonode to just hhtps requests
-* 
