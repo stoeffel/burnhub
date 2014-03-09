@@ -1,7 +1,10 @@
-Burndown
+Burnhub
 ========
 
-Is a burndown-chart creator for github.
+Need a scrum chart to make your scrummaster happy?
+You want to use github?
+
+Use burnhub to create a burndownchart from your github issues.
 
 Usage
 -----
@@ -13,6 +16,5 @@ Usage
 Todos
 -----
 
-* create a diagram from the given data
-* save the cvs to the disk
+* massive refactoring
 * save config in a config file for a project

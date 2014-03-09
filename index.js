@@ -2,10 +2,12 @@ var github = require('octonode'),
     winston = require('winston'),
     _ = require('lodash'),
     fs = require('fs'),
+    path = require('path'),
     Q = require('q'),
     inquirer = require('inquirer'),
     csv = require('tsv').CSV,
     moment = require('moment'),
+    Mustache = require('Mustache'),
     client = github.client(),
     me = module.exports,
     user, repo, milestone, prefix, issues, pointsPerDay, start, end;
@@ -63,6 +65,52 @@ me.onReceivedIssues = function(receivedIssues) {
                 }
             });
         }
+
+
+        filename = milestone.toLowerCase().replace(' ', '_') + '.html';
+        inquirer.prompt([{
+            type: 'expand',
+            message: 'Write html with chart to ' + filename + '?',
+            name: 'write',
+            choices: [{
+                key: 'y',
+                name: 'write the file',
+                value: true
+            }, {
+                key: 'n',
+                name: 'don\'t write',
+                value: false
+            }]
+        }], function(answers) {
+            if (answers.write) {
+                winston.info('write', filename, '...');
+                fs.writeFile('./' + filename, tsvString, function(err) {
+                    if (err) {
+                        winston.error(err);
+                    } else {
+                        winston.info('The file was saved!');
+                    }
+                });
+                Q.nfcall(fs.readFile, 'template/index.html')
+                    .then(function(file) {
+                        var data = {
+                            milestone: milestone,
+                            pointsPerDay: pointsPerDay
+                        };
+
+                        var output = Mustache.render(file.toString(), data);
+                        return output;
+                    })
+                    .then(function(output) {
+                        return Q.nfcall(fs.writeFile, filename, output);
+                    })
+                    .then(function(output) {
+                        winston.info('The file was saved!');
+                    })
+                    .fail(me.onFail);
+
+            }
+        });
     });
 };
 
@@ -131,21 +179,21 @@ me.askForUserAndRepo = function() {
             name: 'user',
             message: 'Enter the name of the repo owner',
             validate: function(value) {
-                return value;
+                return value !== '';
             }
         }, {
             type: 'input',
             name: 'repo',
             message: 'Enter a repo of the user',
             validate: function(value) {
-                return value;
+                return value !== '';
             }
         }, {
             type: 'input',
             name: 'milestone',
             message: 'Enter the name of a milestone',
             validate: function(value) {
-                return value;
+                return value !== '';
             }
         }, {
             type: 'input',
@@ -183,6 +231,7 @@ me.askForUserAndRepo = function() {
         }
     );
 };
+
 
 me.start = function() {
     winston.cli();
