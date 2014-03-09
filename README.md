@@ -18,3 +18,5 @@ Todos
 
 * massive refactoring
 * save config in a config file for a project
+* move from octonode to just hhtps requests
+* 
