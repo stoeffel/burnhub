@@ -105,16 +105,23 @@ describe('Burnhub', function() {
                 closed_at: '03.18.2014',
                 labels: [{
                     name: 'SP-1'
-                }]
+                }],
+                milestone: {
+                    title: 'foo'
+                }
             }, {
                 created_at: '03.18.2014',
                 labels: [{
                     name: 'SP-1'
-                }]
+                }],
+                milestone: {
+                    title: 'foo'
+                }
             }],
                 burnhub = new Burnhub({
                     issues: issues,
-                    labelPrefix: 'SP-'
+                    labelPrefix: 'SP-',
+                    milestone: 'foo'
                 });
             burnhub.getPointsForADay(moment('03.18.14')).should.be.like({
                 date: '03.18.2014',

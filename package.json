@@ -1,6 +1,6 @@
 {
   "name": "burnhub",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "burndown chart for github issues",
   "main": "index.js",
   "scripts": {
@@ -39,6 +39,7 @@
     "chai": "~1.9.0",
     "mocha": "~1.17.1",
     "underscore": "~1.6.0",
-    "chai-fuzzy": "~1.4.0"
+    "chai-fuzzy": "~1.4.0",
+    "cli-table": "~0.3.0"
   }
 }
