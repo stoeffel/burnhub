@@ -8,6 +8,7 @@ var github = require('octonode'),
     csv = require('tsv').CSV,
     moment = require('moment'),
     Mustache = require('Mustache'),
+    Burnhub = require('./lib/burnhub'),
     client = github.client(),
     me = module.exports,
     user, repo, milestone, prefix, issues, pointsPerDay, start, end;
@@ -30,12 +31,18 @@ me.getIssues = function() {
 };
 
 me.onReceivedIssues = function(receivedIssues) {
-    var filename = milestone.toLowerCase().replace(' ', '_') + '.csv';
-    console.log(_.map(receivedIssues, 'title'));
+    var filename = milestone.toLowerCase().replace(' ', '_') + '.csv',
+        burnhub;
 
     issues = _.filter(receivedIssues, me.isInMilestone());
-    issues = _.filter(issues, me.hasStorypointLabel());
-    me.calculatePoints();
+    burnhub = new Burnhub({
+        milestone: milestone,
+        issues: issues,
+        labelPrefix: prefix,
+        startDate: start,
+        endDate: end
+    });
+    pointsPerDay = burnhub.calculatePointsPerDay();
     winston.info('Milestone:', milestone);
     winston.info('creating csv...');
     var tsvString = csv.stringify(pointsPerDay);
