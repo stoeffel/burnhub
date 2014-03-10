@@ -167,6 +167,14 @@ me.calculatePoints = function() {
             remaining: totalPoints - done
         });
     });
+
+    me.calculateIdealLine();
+};
+
+me.calculateIdealLine = function() {
+    _.forEach(pointsPerDay, function(item, key) {
+        item.ideal = Math.floor((1 - (key+1) / pointsPerDay.length) * item.totalPoints);
+    });
 };
 
 me.onFail = function(error) {

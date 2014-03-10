@@ -29,7 +29,7 @@
         ul {
             margin: auto;
             display: block;
-            width:400px; 
+            width:750px; 
             margin-top: 20px;
         }
         ul li {
@@ -41,13 +41,13 @@
             font-weight: 500;
         }
         li.total {
-            color: rgba(220,220,220,0.5);
-        }
-        li.done {
-            color: rgba(168, 163, 59,0.5);
+            color: rgba(220,220,212,1);
         }
         li.remaining {
-            color: rgba(201, 69, 44,0.5);
+            color: rgba(233,60,79,1);
+        }
+        li.ideal {
+            color:   rgba(173, 188, 195,1);
         }
   </style>
 </head>
@@ -59,10 +59,10 @@
 
   <!-- Add your site or application content here -->
   <h1>Sprintgoal 2</h1>
-  <canvas id="burndown" width="400" height="400"></canvas>
+  <canvas id="burndown" width="750" height="750"></canvas>
   <ul>
       <li class="total">Total points</li>
-      <li class="done">done points</li>
+      <li class="ideal">Ideal points</li>
       <li class="remaining">Remaining points</li>
   </ul>
 
@@ -114,6 +114,20 @@ b.moveTo(g,p);b.lineTo(g,p-d*v(a.datasets[e].data[f],j,k)+c.barStrokeWidth/2);b.
   var ctx = document.getElementById("burndown").getContext("2d");
   var data = {
     labels: [
+            "02.17.2014",
+            "02.18.2014",
+            "02.19.2014",
+            "02.20.2014",
+            "02.21.2014",
+            "02.22.2014",
+            "02.23.2014",
+            "02.24.2014",
+            "02.25.2014",
+            "02.26.2014",
+            "02.27.2014",
+            "02.28.2014",
+            "03.01.2014",
+            "03.02.2014",
             "03.03.2014",
             "03.04.2014",
             "03.05.2014",
@@ -122,99 +136,99 @@ b.moveTo(g,p);b.lineTo(g,p-d*v(a.datasets[e].data[f],j,k)+c.barStrokeWidth/2);b.
             "03.08.2014",
             "03.09.2014",
             "03.10.2014",
-            "03.11.2014",
-            "03.12.2014",
-            "03.13.2014",
-            "03.14.2014",
-            "03.15.2014",
-            "03.16.2014",
-            "03.17.2014",
-            "03.18.2014",
-            "03.19.2014",
-            "03.20.2014",
-            "03.21.2014",
                 ],
     datasets: [{
-      fillColor: "rgba(220,220,220,0.5)",
-      strokeColor: "rgba(220,220,220,1)",
-      pointColor: "rgba(220,220,220,1)",
+      fillColor:   "rgba(220,220,212,0.5)",
+      strokeColor: "rgba(220,220,212,1)",
+      pointColor:  "rgba(220,220,212,1)",
       pointStrokeColor: "#fff",
       data: [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             30,
             30,
             30,
             30,
-            31,
-            31,
-            31,
-            31,
-            31,
-            31,
-            31,
-            31,
-            31,
-            31,
-            31,
             31,
             31,
             31,
             31,
           ]
     }, {
-      fillColor: "rgba(201, 69, 44,0.5)",
-      strokeColor: "rgba(201, 69, 44,1)",
-      pointColor: "rgba(201, 69, 44,1)",
+      fillColor:   "rgba(233, 60, 79,0.5)",
+      strokeColor: "rgba(233, 60, 79,1)",
+      pointColor:  "rgba(233, 60, 79,1)",
       pointStrokeColor: "#fff",
       data: [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             26,
             26,
             26,
             26,
-            19,
-            19,
-            19,
-            19,
-            19,
-            19,
-            19,
-            19,
-            19,
-            19,
-            19,
             19,
             19,
             19,
             19,
           ]
     }, {
-      fillColor: "rgba(168, 163, 59,0.5)",
-      strokeColor: "rgba(168, 163, 59,1)",
-      pointColor: "rgba(168, 163, 59,1)",
-      pointStrokeColor: "#fff",
+      strokeColor:   "rgba(173, 188, 195,1)",
+      fillColor:   "rgba(233, 60, 79,0)",
+      pointColor:  "rgba(233, 60, 79,0)",
+      pointStrokeColor: "rgba(233, 60, 79,0)",
       data: [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            9,
+            8,
+            6,
+            5,
             4,
-            4,
-            4,
-            4,
-            12,
-            12,
-            12,
-            12,
-            12,
-            12,
-            12,
-            12,
-            12,
-            12,
-            12,
-            12,
-            12,
-            12,
-            12,
+            2,
+            1,
+            0,
           ]
     }]
   }
-  new Chart(ctx).Line(data);
+new Chart(ctx).Line(data, {
+        scaleLabel : "<%=Math.floor(value)%>",
+        });
 </script>
 
 </html>
