@@ -18,5 +18,4 @@ It will create a csv and a html file.
 Todos
 -----
 
-* massive refactoring
 * save config in a config file for a project
