@@ -52,18 +52,18 @@ describe('Burnhub', function() {
         });
         it('should return an array of all days in the given period', function() {
             var burnhub = new Burnhub({
-                startDate: moment(),
-                endDate: moment()
+                startDate: moment('20141228'),
+                endDate: moment('20141228')
             });
             burnhub.getDaysInPeriod().should.be.an('array').with.length(1);
             burnhub = new Burnhub({
-                startDate: moment(),
-                endDate: moment().add(1, 'day')
+                startDate: moment('20141228', 'YYYYMMDD'),
+                endDate: moment('20141228', 'YYYYMMDD').add(1, 'day')
             });
             burnhub.getDaysInPeriod().should.be.an('array').with.length(2);
             burnhub = new Burnhub({
-                startDate: moment(),
-                endDate: moment().add(2, 'day')
+                startDate: moment('20141228', 'YYYYMMDD'),
+                endDate: moment('20141228', 'YYYYMMDD').add(2, 'day')
             });
             burnhub.getDaysInPeriod().should.be.an('array').with.length(3);
         });
@@ -121,8 +121,10 @@ describe('Burnhub', function() {
                 burnhub = new Burnhub({
                     issues: issues,
                     labelPrefix: 'SP-',
+                    startDate: moment('20140318', 'YYYYMMDD'),
                     milestone: 'foo'
                 });
+            burnhub.totalPoints = 0;
             burnhub.getPointsForADay(moment('03.18.14')).should.be.like({
                 date: '03.18.2014',
                 totalPoints: 1,

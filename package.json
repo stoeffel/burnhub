@@ -1,6 +1,6 @@
 {
   "name": "burnhub",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "burndown chart for github issues",
   "main": "lib/burnhub.js",
   "scripts": {
